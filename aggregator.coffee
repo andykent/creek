@@ -5,7 +5,8 @@ class Aggregator
     @aggregators[name] = {getValue: ((o) -> o[opts.field]), aggregator:(new opts.aggregator(opts))}
   push: (time, obj) ->
     for name, agg of @aggregators
-      agg.aggregator.push(time, agg.getValue(obj))
+      val = agg.getValue(obj)
+      agg.aggregator.push(time, val) if typeof val == 'number'
   compute: (name) ->
     @aggregators[name].aggregator.compute()
 
@@ -25,32 +26,10 @@ class LazyBucketedAggregator
   buckets: ->
     Object.keys(@aggregators)
 
-class exports.Mean
-  constructor: (opts) ->
-    @count = 0
-    @total = 0
-  push: (time, value) ->
-    @count++
-    @total += value
-  compute: ->
-    @total / @count
-    
-class exports.TimeboxedMean
-  constructor: (opts) ->
-    @period = (opts.period or 60) * 1000
-    @data = []
-  push: (time, value) ->
-    periodThreshold = (new Date().getTime())-@period
-    @data.push( time:time, value:value )
-    loop
-      if @data.length > 0 and @data[0].time.getTime() < periodThreshold
-        @data.shift()
-      else
-        break
-  compute: ->
-    sum = 0
-    sum += fact.value for fact in @data
-    sum / @data.length
+
 
 exports.createAggregator = -> new Aggregator()
 exports.createBucketedAggregator = -> new LazyBucketedAggregator()
+
+exports.Mean = require('./aggregators/mean').Mean
+exports.TimeboxedMean = require('./aggregators/timeboxed-mean').TimeboxedMean
