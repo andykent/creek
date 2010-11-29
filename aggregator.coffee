@@ -21,8 +21,14 @@ class LazyBucketedAggregator
       @aggregators[bucket] = new Aggregator()
       @aggregators[bucket].track(name, opts) for name, opts of @aggregatorOpts
     @aggregators[bucket].push(time, obj)
-  compute: (bucket, name) ->
-    @aggregators[bucket].compute(name)
+  compute: (name, bucket) ->
+    if bucket
+      @aggregators[bucket].compute(name)
+    else
+      ret = {}
+      for bucket, agg of @aggregators
+        ret[bucket] = agg.compute(name)
+      ret
   buckets: ->
     Object.keys(@aggregators)
 

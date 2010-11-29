@@ -18,17 +18,17 @@ process.on 'exit', -> console.log(agg.compute 'avgRecordsPerSec')
 
 # agg = aggregator.createBucketedAggregator()
 # 
-# agg.track 'avgRecordsPerSec', aggregator: aggregator.MeanAggregator, field:'count', history:60
+# agg.track 'avgRecordsPerSec', aggregator: aggregator.TimeboxedMean, field:'count', period:5, precision: 1
 # 
 # agg.push 'pass', new Date(), count: 1
 # agg.push 'fail', new Date(), count: 2
-# console.log(agg.compute 'pass', 'avgRecordsPerSec')
-# console.log(agg.compute 'fail', 'avgRecordsPerSec')
+# console.log(agg.compute 'avgRecordsPerSec')
+# console.log(agg.compute 'avgRecordsPerSec', 'pass')
 # 
 # setTimeout (-> agg.push('pass', new Date(), count: 2)), 500
 # setTimeout (-> agg.push('pass', new Date(), count: 5)), 2000
 # 
-# process.on 'exit', -> console.log(agg.compute 'pass', 'avgRecordsPerSec')
+# process.on 'exit', -> console.log(agg.compute 'avgRecordsPerSec')
 
 
 
