@@ -33,3 +33,5 @@ exports.createBucketedAggregator = -> new LazyBucketedAggregator()
 
 exports.Mean = require('./aggregators/mean').Mean
 exports.TimeboxedMean = require('./aggregators/timeboxed-mean').TimeboxedMean
+exports.Min = require('./aggregators/min').Min
+exports.Max = require('./aggregators/max').Max
