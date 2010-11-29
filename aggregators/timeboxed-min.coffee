@@ -1,28 +1,26 @@
-class TimeboxedMean
+class TimeboxedMin
   constructor: (opts) ->
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
     @blocks = []
   push: (time, value) ->
     @maybeCreateNewBlock(time)
-    @blocks[@blocks.length-1].data.count ++
-    @blocks[@blocks.length-1].data.total += value
+    oldValue = @blocks[@blocks.length-1].data
+    @blocks[@blocks.length-1].data = value if oldValue == null or oldValue > value
     @cleanup()
   compute: ->
     @cleanup()
-    total = 0
-    count = 0
+    min = null
     for block in @blocks
-      total += block.data.total
-      count += block.data.count
-    total / count
+      min = block.data if min == null or min > block.data
+    min
   maybeCreateNewBlock: (time) ->
     if @blocks.length == 0
-      @blocks.push( time:time, data:{total:0, count:0} )
+      @blocks.push( time:time, data:null )
       return
     lastBlockTime = @blocks[@blocks.length-1].time
     diff = time - lastBlockTime.getTime()
-    @blocks.push( time:time, data:{total:0, count:0} ) if diff > @precision
+    @blocks.push( time:time, data:null ) if diff > @precision
   cleanup: ->
     periodThreshold = new Date().getTime() - @period
     loop
@@ -30,4 +28,4 @@ class TimeboxedMean
       @blocks.shift()
     
 
-exports.TimeboxedMean = TimeboxedMean
+exports.TimeboxedMin = TimeboxedMin

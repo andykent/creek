@@ -2,10 +2,10 @@ aggregator = require('./aggregator')
 
 agg = aggregator.createAggregator()
 
-agg.track 'avgRecordsPerSec', aggregator: aggregator.TimeboxedMean, field:'count', period:5, precision: 1
+agg.track 'avgRecordsPerSec', aggregator: aggregator.TimeboxedMax, field:'count', period:5, precision: 1
 
 agg.push new Date(), count: 1
-agg.push new Date(), count: 2
+agg.push new Date(), count: 20
 console.log(agg.compute 'avgRecordsPerSec')
 
 setTimeout (-> agg.push(new Date(), count: 2)), 1100
