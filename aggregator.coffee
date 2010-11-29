@@ -9,15 +9,41 @@ class Aggregator
   compute: (name) ->
     @aggregators[name].aggregator.compute()
 
-class MeanAggregator
+class LazyBucketedAggregator
+  constructor: -> 
+    @aggregatorOpts = {}
+    @aggregators = {}
+  track: (name, opts) ->
+    @aggregatorOpts[name] = opts
+  push: (bucket, time, obj) ->
+    unless @aggregators[bucket]
+      @aggregators[bucket] = new Aggregator()
+      @aggregators[bucket].track(name, opts) for name, opts of @aggregatorOpts
+    @aggregators[bucket].push(time, obj)
+  compute: (bucket, name) ->
+    @aggregators[bucket].compute(name)
+  buckets: ->
+    Object.keys(@aggregators)
+
+class exports.Mean
   constructor: (opts) ->
-    @history = (opts.history || 60)*10
+    @count = 0
+    @total = 0
+  push: (time, value) ->
+    @count++
+    @total += value
+  compute: ->
+    @total / @count
+    
+class exports.TimeboxedMean
+  constructor: (opts) ->
+    @period = (opts.period or 60) * 1000
     @data = []
   push: (time, value) ->
-    historyThreshold = (new Date().getTime())-@history
+    periodThreshold = (new Date().getTime())-@period
     @data.push( time:time, value:value )
     loop
-      if @data.length > 0 and @data[0].time.getTime() < historyThreshold
+      if @data.length > 0 and @data[0].time.getTime() < periodThreshold
         @data.shift()
       else
         break
@@ -27,4 +53,4 @@ class MeanAggregator
     sum / @data.length
 
 exports.createAggregator = -> new Aggregator()
-exports.MeanAggregator = MeanAggregator
+exports.createBucketedAggregator = -> new LazyBucketedAggregator()
