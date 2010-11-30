@@ -1,3 +1,5 @@
+TimeboxedAggregator = require('./timeboxed-aggregator').TimeboxedAggregator
+
 class Total
   constructor: (opts) ->
     @total = 0
@@ -6,4 +8,15 @@ class Total
   compute: ->
     @total
 
-exports.Total = Total
+exports.all = Total
+
+
+class TimeboxedTotal extends TimeboxedAggregator
+  recalculateBlockData: (blockData, value) ->
+    blockData += value
+  computeFromBlocks: (blocks) ->
+    total = 0
+    total += block.data for block in blocks
+    total
+
+exports.timeboxed = TimeboxedTotal

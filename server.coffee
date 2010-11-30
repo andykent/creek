@@ -1,33 +1,42 @@
 aggregator = require('./aggregator')
 
-agg = aggregator.createAggregator()
-
-agg.track 'avgRecordsPerSec', aggregator: aggregator.Count, field:'count', period:5, precision: 1
-
-agg.push new Date(), count: 1
-agg.push new Date(), count: 20
-console.log(agg.compute 'avgRecordsPerSec')
-
-setTimeout (-> agg.push(new Date(), count: 2)), 1100
-setTimeout (-> agg.push(new Date(), count: 4)), 1200
-setTimeout (-> agg.push(new Date(), count: 6)), 5500
-
-process.on 'exit', -> console.log(agg.compute 'avgRecordsPerSec')
-
-
-# agg = aggregator.createBucketedAggregator()
+# agg = aggregator.createAggregator()
 # 
-# agg.track 'avgRecordsPerSec', aggregator: aggregator.TimeboxedMean, field:'count', period:5, precision: 1
+# agg.track 'mean',  aggregator: aggregator.mean.timeboxed,  field:'count', period:5, precision: 1
+# agg.track 'max',   aggregator: aggregator.max.timeboxed,   field:'count', period:5, precision: 1
+# agg.track 'min',   aggregator: aggregator.min.timeboxed,   field:'count', period:5, precision: 1
+# agg.track 'total', aggregator: aggregator.total.timeboxed, field:'count', period:5, precision: 1
+# agg.track 'count', aggregator: aggregator.count.timeboxed, field:'count', period:5, precision: 1
 # 
-# agg.push 'pass', new Date(), count: 1
-# agg.push 'fail', new Date(), count: 2
-# console.log(agg.compute 'avgRecordsPerSec')
-# console.log(agg.compute 'avgRecordsPerSec', 'pass')
+# agg.push new Date(), count: 1
+# agg.push new Date(), count: 20
 # 
-# setTimeout (-> agg.push('pass', new Date(), count: 2)), 500
-# setTimeout (-> agg.push('pass', new Date(), count: 5)), 2000
+# console.log(agg.compute())
 # 
-# process.on 'exit', -> console.log(agg.compute 'avgRecordsPerSec')
+# setTimeout (-> agg.push(new Date(), count: 2)), 1100
+# setTimeout (-> agg.push(new Date(), count: 4)), 1200
+# setTimeout (-> agg.push(new Date(), count: 6)), 5500
+# 
+# process.on 'exit', -> console.log(agg.compute())
+
+
+agg = aggregator.createBucketedAggregator()
+
+agg.track 'mean',  aggregator: aggregator.mean.timeboxed,  field:'count', period:5, precision: 1
+agg.track 'max',   aggregator: aggregator.max.timeboxed,   field:'count', period:5, precision: 1
+agg.track 'min',   aggregator: aggregator.min.timeboxed,   field:'count', period:5, precision: 1
+agg.track 'total', aggregator: aggregator.total.timeboxed, field:'count', period:5, precision: 1
+agg.track 'count', aggregator: aggregator.count.timeboxed, field:'count', period:5, precision: 1
+
+agg.push 'pass', new Date(), count: 1
+agg.push 'fail', new Date(), count: 2
+console.log(agg.compute 'mean')
+console.log(agg.compute 'mean', 'pass')
+
+setTimeout (-> agg.push('pass', new Date(), count: 2)), 500
+setTimeout (-> agg.push('pass', new Date(), count: 5)), 2000
+
+process.on 'exit', -> console.log(agg.compute())
 
 
 

@@ -8,7 +8,14 @@ class Aggregator
       val = agg.getValue(obj)
       agg.aggregator.push(time, val) if typeof val == 'number'
   compute: (name) ->
-    @aggregators[name].aggregator.compute()
+    if typeof name is 'string'
+      console.log("Aggregation '#{name}' does not exist!") unless @aggregators[name]
+      @aggregators[name].aggregator.compute()
+    else
+      ret = {}
+      for name, agg of @aggregators
+        ret[name] = agg.aggregator.compute()
+      ret
 
 class LazyBucketedAggregator
   constructor: -> 
@@ -37,11 +44,8 @@ class LazyBucketedAggregator
 exports.createAggregator = -> new Aggregator()
 exports.createBucketedAggregator = -> new LazyBucketedAggregator()
 
-exports.Mean = require('./aggregators/mean').Mean
-exports.TimeboxedMean = require('./aggregators/timeboxed-mean').TimeboxedMean
-exports.Min = require('./aggregators/min').Min
-exports.TimeboxedMin = require('./aggregators/timeboxed-min').TimeboxedMin
-exports.Max = require('./aggregators/max').Max
-exports.TimeboxedMax = require('./aggregators/timeboxed-max').TimeboxedMax
-exports.Count = require('./aggregators/count').Count
-exports.Total = require('./aggregators/total').Total
+exports.mean = require('./aggregators/mean')
+exports.min = require('./aggregators/min')
+exports.max = require('./aggregators/max')
+exports.count = require('./aggregators/count')
+exports.total = require('./aggregators/total')

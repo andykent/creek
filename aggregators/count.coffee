@@ -1,3 +1,5 @@
+TimeboxedAggregator = require('./timeboxed-aggregator').TimeboxedAggregator
+
 class Count
   constructor: (opts) ->
     @count = 0
@@ -6,4 +8,15 @@ class Count
   compute: ->
     @count
 
-exports.Count = Count
+exports.all = Count
+
+
+class TimeboxedCount extends TimeboxedAggregator
+  recalculateBlockData: (blockData, value) ->
+    blockData + 1
+  computeFromBlocks: (blocks) ->
+    count = 0
+    count += block.data for block in blocks
+    count
+
+exports.timeboxed = TimeboxedCount
