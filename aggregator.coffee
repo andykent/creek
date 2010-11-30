@@ -43,3 +43,5 @@ exports.Min = require('./aggregators/min').Min
 exports.TimeboxedMin = require('./aggregators/timeboxed-min').TimeboxedMin
 exports.Max = require('./aggregators/max').Max
 exports.TimeboxedMax = require('./aggregators/timeboxed-max').TimeboxedMax
+exports.Count = require('./aggregators/count').Count
+exports.Total = require('./aggregators/total').Total

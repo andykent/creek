@@ -2,7 +2,7 @@ aggregator = require('./aggregator')
 
 agg = aggregator.createAggregator()
 
-agg.track 'avgRecordsPerSec', aggregator: aggregator.TimeboxedMax, field:'count', period:5, precision: 1
+agg.track 'avgRecordsPerSec', aggregator: aggregator.Count, field:'count', period:5, precision: 1
 
 agg.push new Date(), count: 1
 agg.push new Date(), count: 20
@@ -13,7 +13,6 @@ setTimeout (-> agg.push(new Date(), count: 4)), 1200
 setTimeout (-> agg.push(new Date(), count: 6)), 5500
 
 process.on 'exit', -> console.log(agg.compute 'avgRecordsPerSec')
-
 
 
 # agg = aggregator.createBucketedAggregator()
