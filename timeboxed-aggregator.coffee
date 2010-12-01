@@ -1,15 +1,17 @@
 class TimeboxedAggregator
-  constructor: (opts) ->
+  constructor: (implementation, opts) ->
+    @implementation = implementation
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
     @blocks = []
+    @implementation.init.call(this, opts) if @implementation.init
   push: (time, value) ->
     currentBlock = @maybeCreateNewBlock(time)
-    currentBlock.data = @recalculateBlockData(currentBlock.data, value, currentBlock.time, time)
+    currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
     @cleanup()
   compute: ->
     @cleanup()
-    @computeFromBlocks(@blocks)
+    @implementation.computeFromBlocks.call(this, @blocks)
   maybeCreateNewBlock: (time) ->
     if @blocks.length == 0
       @blocks.push( time:time, data:@defaultBlockValue() )
@@ -23,6 +25,9 @@ class TimeboxedAggregator
     loop
       break if @blocks.length == 0 or @blocks[0].time.getTime() > periodThreshold
       @blocks.shift()
-  defaultBlockValue: -> null
+  defaultBlockValue: -> 
+    if @implementation.defaultBlockValue then @implementation.defaultBlockValue.call(this) else null
 
 exports.TimeboxedAggregator = TimeboxedAggregator
+
+exports.buildTimeboxedAggregator = (implementation)-> ((opts) -> new TimeboxedAggregator(implementation, opts))

@@ -1,17 +1,15 @@
-TimeboxedAggregator = require('./timeboxed-aggregator').TimeboxedAggregator
-
-class Max
-  constructor: (opts) ->
-    @max = null
-  push: (time, value) ->
-    @max = value if @max == null or @max < value
-  compute: ->
-    @max
-
-exports.all = Max
+aggregator = require('../aggregator')
+timeboxedAggregator = require('../timeboxed-aggregator')
 
 
-class TimeboxedMax extends TimeboxedAggregator
+exports.alltime = aggregator.buildAggregator(
+  init: (opts) -> @max = null
+  push: (time, value) -> @max = value if @max == null or @max < value
+  compute: -> @max
+)
+
+
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator(
   recalculateBlockData: (blockData, value) ->
     if blockData is null or blockData < value then value else blockData
   computeFromBlocks: (blocks) ->
@@ -19,5 +17,4 @@ class TimeboxedMax extends TimeboxedAggregator
     for block in blocks
       max = block.data if max == null or max < block.data
     max
-
-exports.timeboxed = TimeboxedMax
+)

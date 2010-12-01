@@ -1,19 +1,19 @@
-TimeboxedAggregator = require('./timeboxed-aggregator').TimeboxedAggregator
+aggregator = require('../aggregator')
+timeboxedAggregator = require('../timeboxed-aggregator')
 
-class Mean
-  constructor: (opts) ->
+
+exports.alltime = aggregator.buildAggregator(
+  init: (opts) -> 
     @count = 0
     @total = 0
   push: (time, value) ->
     @count++
     @total += value
-  compute: ->
-    @total / @count
-
-exports.all = Mean
+  compute: -> @total / @count
+)
 
 
-class TimeboxedMean extends TimeboxedAggregator
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator(
   recalculateBlockData: (blockData, value) ->
     blockData.count ++
     blockData.total += value
@@ -27,5 +27,4 @@ class TimeboxedMean extends TimeboxedAggregator
       total += block.data.total
       count += block.data.count
     total / count
-
-exports.timeboxed = TimeboxedMean
+)
