@@ -19,7 +19,7 @@ class TimeboxedAggregator
     @cleanup()
     oldValue = @cachedValue
     @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
-    @events.emit('change', @cachedValue, oldValue)
+    @events.emit('change', @cachedValue, oldValue) unless @cachedValue is oldValue
     @cachedValue
   maybeCreateNewBlock: (time) ->
     if @blocks.length == 0

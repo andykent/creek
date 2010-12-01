@@ -14,7 +14,7 @@ class Aggregator
   compute: ->
     oldValue = @cachedValue
     @cachedValue = @implementation.compute.call(this)
-    @events.emit('change', @cachedValue, oldValue)
+    @events.emit('change', @cachedValue, oldValue) unless @cachedValue is oldValue
     @cachedValue
 
 exports.buildAggregator = (implementation)-> ((opts) -> new Aggregator(implementation, opts))
