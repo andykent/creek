@@ -1,17 +1,26 @@
+events = require('events')
+
 class TimeboxedAggregator
   constructor: (implementation, opts) ->
     @implementation = implementation
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
+    @cachedValue = null
     @blocks = []
     @implementation.init.call(this, opts) if @implementation.init
+    @events = new events.EventEmitter()
+  on: (event, callback) ->
+    @events.on(event, callback)
   push: (time, value) ->
     currentBlock = @maybeCreateNewBlock(time)
     currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
     @cleanup()
   compute: ->
     @cleanup()
-    @implementation.computeFromBlocks.call(this, @blocks)
+    oldValue = @cachedValue
+    @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
+    @events.emit('change', @cachedValue, oldValue)
+    @cachedValue
   maybeCreateNewBlock: (time) ->
     if @blocks.length == 0
       @blocks.push( time:time, data:@defaultBlockValue() )

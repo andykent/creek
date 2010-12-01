@@ -13,7 +13,7 @@ agg.track 'alltime min',   aggregator: aggregator.min.alltime,     field:'count'
 agg.track 'alltime total', aggregator: aggregator.total.alltime,   field:'count', period:5, precision: 1
 agg.track 'alltime count', aggregator: aggregator.count.alltime,   field:'count', period:5, precision: 1
 
-# agg.on 'max', 'change', (newValue, oldValue) -> console.log("max changed from #{oldValue} to #{newValue}")
+agg.on 'max', 'change', (newValue, oldValue) -> console.log("max changed from #{oldValue} to #{newValue}")
 
 agg.push new Date(), count: 1
 agg.push new Date(), count: 20
@@ -40,13 +40,15 @@ process.on 'exit', -> console.log(agg.compute())
 # agg.track 'alltime total', aggregator: aggregator.total.alltime,   field:'count', period:5, precision: 1
 # agg.track 'alltime count', aggregator: aggregator.count.alltime,   field:'count', period:5, precision: 1
 # 
+# agg.on 'max', 'change', (bucket, newValue, oldValue) -> console.log("max changed for #{bucket} from #{oldValue} to #{newValue}")
+# 
 # agg.push 'pass', new Date(), count: 1
 # agg.push 'fail', new Date(), count: 2
 # console.log(agg.compute 'mean')
 # console.log(agg.compute 'mean', 'pass')
 # 
 # setTimeout (-> agg.push('pass', new Date(), count: 2)), 500
-# setTimeout (-> agg.push('pass', new Date(), count: 5)), 2000
+# setTimeout (-> agg.push('pass', new Date(), count: 5)), 5500
 # 
 # process.on 'exit', -> console.log(agg.compute())
 

@@ -3,6 +3,13 @@ class CompoundAggregator
     @aggregators = {}
   track: (name, opts) ->
     @aggregators[name] = {getValue: ((o) -> o[opts.field]), aggregator:opts.aggregator(opts)}
+  on: (name, event, callback) ->
+    if arguments.length == 3
+      @aggregators[name].aggregator.on(event, callback)
+    else
+      event = name
+      callback = event
+      agg.aggregator.on(event, callback) for name, agg of @aggregators
   push: (time, obj) ->
     for name, agg of @aggregators
       val = agg.getValue(obj)
@@ -21,12 +28,23 @@ class LazyBucketedAggregator
   constructor: -> 
     @aggregatorOpts = {}
     @aggregators = {}
+    @events = []
   track: (name, opts) ->
     @aggregatorOpts[name] = opts
+  on: (name, event, callback) ->
+    if arguments.length == 2
+      event = name
+      callback = event
+      name = null
+    @events.push( name:name, event:event, callback:callback )
   push: (bucket, time, obj) ->
     unless @aggregators[bucket]
       @aggregators[bucket] = new CompoundAggregator()
       @aggregators[bucket].track(name, opts) for name, opts of @aggregatorOpts
+      console.log("e: #{@events}")
+      for e in @events
+        console.log("adding #{bucket} - #{e.name} -> #{e.event}")
+        @aggregators[bucket].on e.name, e.event, (newValue, oldValue) -> e.callback(bucket, newValue, oldValue)
     @aggregators[bucket].push(time, obj)
   compute: (name, bucket) ->
     if bucket
