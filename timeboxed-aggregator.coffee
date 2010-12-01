@@ -14,12 +14,12 @@ class TimeboxedAggregator
   push: (time, value) ->
     currentBlock = @maybeCreateNewBlock(time)
     currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
-    @cleanup()
+    oldValue = @cachedValue
+    @events.emit('change', @cachedValue, oldValue) unless @compute() is oldValue
   compute: ->
     @cleanup()
-    oldValue = @cachedValue
     @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
-    @events.emit('change', @cachedValue, oldValue) unless @cachedValue is oldValue
+  value: ->
     @cachedValue
   maybeCreateNewBlock: (time) ->
     if @blocks.length == 0

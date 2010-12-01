@@ -11,10 +11,11 @@ class Aggregator
     @events.on(event, callback)
   push: (time, value) ->
     @implementation.push.call(this, time, value)
-  compute: ->
     oldValue = @cachedValue
+    @events.emit('change', @cachedValue, oldValue) unless @compute() is oldValue
+  compute: ->
     @cachedValue = @implementation.compute.call(this)
-    @events.emit('change', @cachedValue, oldValue) unless @cachedValue is oldValue
+  value: ->
     @cachedValue
 
 exports.buildAggregator = (implementation)-> ((opts) -> new Aggregator(implementation, opts))

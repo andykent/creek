@@ -14,14 +14,14 @@ class CompoundAggregator
     for name, agg of @aggregators
       val = agg.getValue(obj)
       agg.aggregator.push(time, val) if typeof val == 'number'
-  compute: (name) ->
+  value: (name) ->
     if typeof name is 'string'
       console.log("Aggregation '#{name}' does not exist!") unless @aggregators[name]
-      @aggregators[name].aggregator.compute()
+      @aggregators[name].aggregator.value()
     else
       ret = {}
       for name, agg of @aggregators
-        ret[name] = agg.aggregator.compute()
+        ret[name] = agg.aggregator.value()
       ret
 
 class LazyBucketedAggregator
@@ -41,18 +41,16 @@ class LazyBucketedAggregator
     unless @aggregators[bucket]
       @aggregators[bucket] = new CompoundAggregator()
       @aggregators[bucket].track(name, opts) for name, opts of @aggregatorOpts
-      console.log("e: #{@events}")
       for e in @events
-        console.log("adding #{bucket} - #{e.name} -> #{e.event}")
         @aggregators[bucket].on e.name, e.event, (newValue, oldValue) -> e.callback(bucket, newValue, oldValue)
     @aggregators[bucket].push(time, obj)
-  compute: (name, bucket) ->
+  value: (name, bucket) ->
     if bucket
-      @aggregators[bucket].compute(name)
+      @aggregators[bucket].value(name)
     else
       ret = {}
       for bucket, agg of @aggregators
-        ret[bucket] = agg.compute(name)
+        ret[bucket] = agg.value(name)
       ret
   buckets: ->
     Object.keys(@aggregators)

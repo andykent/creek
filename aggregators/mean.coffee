@@ -26,5 +26,6 @@ exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator(
     for block in blocks
       total += block.data.total
       count += block.data.count
+    return 0 if count is 0
     total / count
 )
