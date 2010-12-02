@@ -1,6 +1,6 @@
 timeboxedAggregator = require('../timeboxed-aggregator')
 
-exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popular'
   defaultBlockValue: () -> {}
   closeBlock: (block) ->
     values = Object.keys(block.data)

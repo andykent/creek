@@ -1,7 +1,8 @@
 events = require('events')
 
 class TimeboxedAggregator
-  constructor: (implementation, opts) ->
+  constructor: (name, implementation, opts) ->
+    @name = name
     @implementation = implementation
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
@@ -44,4 +45,4 @@ class TimeboxedAggregator
 
 exports.TimeboxedAggregator = TimeboxedAggregator
 
-exports.buildTimeboxedAggregator = (implementation)-> ((opts) -> new TimeboxedAggregator(implementation, opts))
+exports.buildTimeboxedAggregator = (name, implementation)-> ((opts) -> new TimeboxedAggregator(name, implementation, opts))

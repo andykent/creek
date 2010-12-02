@@ -8,6 +8,7 @@ class CompoundAggregator
       when 'function' then ((o) -> opts.field(o))
       else ((o) -> o)
     @aggregators[name] = {getValue:getValue, aggregator:opts.aggregator(opts)}
+    console.log("Tracking '#{@aggregators[name].aggregator.name}' as '#{name}' with #{JSON.stringify(opts)}")
   on: (name, event, callback) ->
     if arguments.length == 3
       @aggregators[name].aggregator.on(event, callback)
@@ -36,6 +37,7 @@ class LazyBucketedAggregator
     @events = []
   track: (name, opts) ->
     @aggregatorOpts[name] = opts
+    console.log("Lazy Tracking '#{name}' with #{JSON.stringify(opts)}")
   on: (name, event, callback) ->
     if arguments.length == 2
       event = name

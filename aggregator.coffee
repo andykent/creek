@@ -1,7 +1,7 @@
 events = require('events')
 
 class Aggregator
-  constructor: (implementation, opts) ->
+  constructor: (name, implementation, opts) ->
     @implementation = implementation
     @opts = opts
     @implementation.init.call(this, @opts)
@@ -19,4 +19,4 @@ class Aggregator
   value: ->
     @cachedValue
 
-exports.buildAggregator = (implementation)-> ((opts) -> new Aggregator(implementation, opts))
+exports.buildAggregator = (name, implementation)-> ((opts) -> new Aggregator(name, implementation, opts))

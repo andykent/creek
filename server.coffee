@@ -2,8 +2,9 @@ http = require('http')
 aggregator = require('./interface')
 
 agg = aggregator.createAggregator()
-agg.track 'popular', 
-  aggregator: aggregator.min.timeboxed
+
+agg.track 'popular'
+  aggregator: aggregator.popular.timeboxed
   field:      'version'
   period:     5
   precision:  1

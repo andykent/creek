@@ -1,7 +1,7 @@
 aggregator = require('../aggregator')
 timeboxedAggregator = require('../timeboxed-aggregator')
 
-exports.alltime = aggregator.buildAggregator
+exports.alltime = aggregator.buildAggregator 'Alltime Mean'
   init: (opts) -> 
     @count = 0
     @total = 0
@@ -10,7 +10,7 @@ exports.alltime = aggregator.buildAggregator
     @total += value
   compute: -> @total / @count
 
-exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Mean'
   recalculateBlockData: (blockData, value) ->
     blockData.count ++
     blockData.total += value
