@@ -1,6 +1,6 @@
 timeboxedAggregator = require('../timeboxed-aggregator')
 
-exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator(
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator
   defaultBlockValue: () -> {}
   closeBlock: (block) ->
     values = Object.keys(block.data)
@@ -15,4 +15,3 @@ exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator(
     blockValues = completeBlocks.map((b) -> b.data)
     blockValues.sort( (a,b) -> b.count - a.count )
     blockValues[0]?.val or null
-)

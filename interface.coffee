@@ -60,8 +60,6 @@ class LazyBucketedAggregator
   buckets: ->
     Object.keys(@aggregators)
 
-
-
 exports.createAggregator = -> new CompoundAggregator()
 exports.createBucketedAggregator = -> new LazyBucketedAggregator()
 
@@ -69,5 +67,5 @@ exports.mean = require('./aggregators/mean')
 exports.min = require('./aggregators/min')
 exports.max = require('./aggregators/max')
 exports.count = require('./aggregators/count')
-exports.total = require('./aggregators/total')
+exports.sum = require('./aggregators/sum')
 exports.popular = require('./aggregators/popular')
