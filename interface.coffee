@@ -18,7 +18,7 @@ class CompoundAggregator
   push: (time, obj) ->
     for name, agg of @aggregators
       val = agg.getValue(obj)
-      agg.aggregator.push(time, val) if typeof val == 'number'
+      agg.aggregator.push(time, val)
   value: (name) ->
     if typeof name is 'string'
       console.log("Aggregation '#{name}' does not exist!") unless @aggregators[name]

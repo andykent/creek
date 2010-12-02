@@ -11,9 +11,13 @@ class TimeboxedAggregator
     @events = new events.EventEmitter()
   on: (event, callback) ->
     @events.on(event, callback)
-  push: (time, value) ->
+  push: (time, values) ->
     currentBlock = @maybeCreateNewBlock(time)
-    currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
+    values = [values] unless Array.isArray(values)
+    for value in values
+      # console.log(value)
+      currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
+      # console.log(currentBlock.data)
     oldValue = @cachedValue
     @events.emit('change', @cachedValue, oldValue) if @events.listeners('change').length == 0 and @compute() != oldValue
   compute: ->
