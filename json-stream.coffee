@@ -14,7 +14,6 @@ class JSONStream
     else # this was a incomplete line, stash it
       @patialData = parts.pop()
     for line in parts
-      console.log(line)
       try
         parsedLine = JSON.parse(line)
       catch e

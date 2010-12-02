@@ -2,7 +2,12 @@ class CompoundAggregator
   constructor: ->
     @aggregators = {}
   track: (name, opts) ->
-    @aggregators[name] = {getValue: ((o) -> o[opts.field]), aggregator:opts.aggregator(opts)}
+    getValue = switch typeof opts.field
+      when 'string' then ((o) -> o[opts.field])
+      when 'number' then ((o) -> opts.field)
+      when 'function' then ((o) -> opts.field(o))
+      else ((o) -> o)
+    @aggregators[name] = {getValue:getValue, aggregator:opts.aggregator(opts)}
   on: (name, event, callback) ->
     if arguments.length == 3
       @aggregators[name].aggregator.on(event, callback)
@@ -65,3 +70,4 @@ exports.min = require('./aggregators/min')
 exports.max = require('./aggregators/max')
 exports.count = require('./aggregators/count')
 exports.total = require('./aggregators/total')
+exports.popular = require('./aggregators/popular')
