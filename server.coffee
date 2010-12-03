@@ -7,7 +7,7 @@ exports.track = (name, opts)-> agg.track(name, opts)
 exports.modes = aggregator.modes
 
 server = http.createServer (req, res) ->
-  res.writeHead(200, {'Content-Type': 'text/plain'})
+  res.writeHead(200, {'Content-Type': 'application/json'})
   res.end JSON.stringify(agg.value())
 
 server.listen 8080, "127.0.0.1", ->

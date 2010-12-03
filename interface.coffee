@@ -72,3 +72,4 @@ exports.modes =
   count: require('./aggregators/count')
   sum: require('./aggregators/sum')
   popular: require('./aggregators/popular')
+  distinct: require('./aggregators/distinct')
