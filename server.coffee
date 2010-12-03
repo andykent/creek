@@ -3,11 +3,8 @@ aggregator = require('./interface')
 
 agg = aggregator.createAggregator()
 
-agg.track 'popular'
-  aggregator: aggregator.popular.timeboxed
-  field:      'version'
-  period:     5
-  precision:  1
+exports.track = (name, opts)-> agg.track(name, opts)
+exports.modes = aggregator.modes
 
 server = http.createServer (req, res) ->
   res.writeHead(200, {'Content-Type': 'text/plain'})

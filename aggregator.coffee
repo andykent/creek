@@ -2,6 +2,7 @@ events = require('events')
 
 class Aggregator
   constructor: (name, implementation, opts) ->
+    @name = name
     @implementation = implementation
     @opts = opts
     @implementation.init.call(this, @opts)
