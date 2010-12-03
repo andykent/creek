@@ -17,7 +17,6 @@ class JSONStream
       try
         parsedLine = JSON.parse(line)
       catch e
-        # console.log("Failed to parse #{line}")
       @recordHandler(parsedLine) if parsedLine
 
 

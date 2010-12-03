@@ -6,7 +6,8 @@ exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popu
   defaultBlockValue: () -> {}
   closeBlock: (block) ->
     values = Object.keys(block.data)
-    topValues = values.sort((a,b) -> block.data[b] - block.data[a]).slice(0, @numberOfResultsToKeep)
+    topValues = values.sort((a,b) -> block.data[b] - block.data[a])
+    topValues = topValues.slice(0, @numberOfResultsToKeep) if numberOfResultsToKeep?
     topValues.reduce ((m,v) -> m[v] = block.data[v]; m), {}
   recalculateBlockData: (blockData, value) ->
     blockData[value] ?= 0
@@ -20,7 +21,6 @@ exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popu
         m[value] += count
       m
     foldedResults = completeBlocks.reduce foldBlocksTogether, {}
-    topValues = Object.keys(foldedResults).sort((a,b) -> foldedResults[b] - foldedResults[a]).slice(0, @numberOfResultsToKeep)
+    topValues = Object.keys(foldedResults).sort((a,b) -> foldedResults[b] - foldedResults[a])
+    topValues = topValues.slice(0, @numberOfResultsToKeep) if @numberOfResultsToKeep?
     topValues.reduce ((m,v) -> m.push(value:v, count:foldedResults[v]); m), []
-    
-    
