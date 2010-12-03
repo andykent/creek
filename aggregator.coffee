@@ -12,11 +12,15 @@ class Aggregator
     @events.on(event, callback)
   push: (time, values) ->
     values = [values] unless Array.isArray(values)
-    @implementation.push.call(this, time, value) for value in values
+    for value in values
+      value = @opts.before.call(this, value) if @opts.before
+      @implementation.push.call(this, time, value) unless value is undefined
     oldValue = @cachedValue
     @events.emit('change', @cachedValue, oldValue) unless @compute() is oldValue
   compute: ->
     @cachedValue = @implementation.compute.call(this)
+    @cachedValue = @opts.after.call(this, @cachedValue) if @opts.after
+    @cachedValue
   value: ->
     @cachedValue
 

@@ -3,6 +3,7 @@ timeboxedAggregator = require('../timeboxed-aggregator')
 exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popular'
   init: (opts) ->
     @numberOfResultsToKeep = opts.top
+    @numberOfResultsToKeep = 10 if @numberOfResultsToKeep is null
   defaultBlockValue: () -> {}
   closeBlock: (block) ->
     values = Object.keys(block.data)

@@ -16,8 +16,8 @@ server.track 'redirects-per-min'
 server.track 'tags-sent-to'
   aggregator: server.modes.distinct.alltime
   field:'destinationTag'
-
-
+  before: (v) -> if v is '1' or v is '3' then undefined else v
+  
 # aggregator = require('./interface')
 # agg = aggregator.createAggregator()
 # 

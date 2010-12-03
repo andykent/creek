@@ -3,6 +3,7 @@ events = require('events')
 class TimeboxedAggregator
   constructor: (name, implementation, opts) ->
     @name = name
+    @opts = opts
     @implementation = implementation
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
@@ -16,6 +17,7 @@ class TimeboxedAggregator
     currentBlock = @maybeCreateNewBlock(time)
     values = [values] unless Array.isArray(values)
     for value in values
+      value = @opts.before.call(this, value) if @opts.before
       currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
     oldValue = @cachedValue
     @compute()
