@@ -1,6 +1,7 @@
 server = require('./server')
 
-server.track 'alltime max', aggregator: server.modes.max.alltime, field:'count', period:5, precision: 1
+server.track 'nost-popular-keyword', aggregator: server.modes.popular.timeboxed, field:((o) -> unescape(o['keyword'])), period:5*60, precision:1, top:5
+server.track 'redirects-per-min', aggregator: server.modes.count.timeboxed, field:1, period:60, precision: 1
 
 
 # aggregator = require('./interface')
