@@ -1,4 +1,4 @@
-parser 'json-docs'
+parser 'json'
   seperatedBy: '\n'
   bucketedBy: 'site'
   timestampedBy: 'timestamp'

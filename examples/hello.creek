@@ -1,0 +1,8 @@
+parser 'words'
+interface 'rest'
+
+track 'unique-words'
+  aggregator: modes.distinct.alltime
+  
+track 'count'
+  aggregator: modes.count.alltime
