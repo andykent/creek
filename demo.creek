@@ -1,0 +1,24 @@
+parser 'json-docs'
+  seperatedBy: '\n'
+  bucketedBy: 'site'
+  timestampedBy: 'timestamp'
+
+interface 'rest'
+
+track 'popular-keywords'
+  aggregator: modes.popular.timeboxed
+  field: ((o) -> unescape(o['keyword']))
+  period: 5*60
+  precision: 1
+  top: 5
+
+track 'redirects-per-min'
+  aggregator: modes.count.timeboxed
+  field: 1
+  period: 60
+  precision: 1
+
+track 'tags-sent-to'
+  aggregator: modes.distinct.alltime
+  field: 'destinationTag'
+  before: (v) -> if v is '1' or v is '3' then undefined else v

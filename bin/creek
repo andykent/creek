@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+require('coffee-script')
+process.title = 'creek'
+configFile = process.argv[2]
+if(configFile===undefined) {
+  console.log('I need a config file')
+  process.exit(1)
+}
+require('./../creek').boot(configFile)

@@ -1,5 +1,6 @@
 class JSONStream
-  constructor: (recordHandler) ->
+  constructor: (opts, recordHandler) ->
+    @seperator = opts.seperatedBy or "\n"
     @stream = process.openStdin()
     @stream.setEncoding('utf8')
     @patialData = ""
@@ -7,7 +8,7 @@ class JSONStream
     @stream.on 'data', @dataHandler
   dataHandler: (chunk) =>
     @patialData += chunk
-    parts = @patialData.split("\n")
+    parts = @patialData.split(@seperator)
     if parts[parts.length-1] == '' # this was a clean line break
       parts.pop()
       @patialData = ''
@@ -21,4 +22,4 @@ class JSONStream
 
 
 
-exports.eachRecord = (handler) -> new JSONStream(handler)
+exports.init = (agg, opts, handler) -> new JSONStream(opts, handler)
