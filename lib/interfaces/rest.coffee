@@ -14,7 +14,7 @@ exports.init = (agg, opts) ->
       else
         JSON.stringify(agg.value(pathParts[1], pathParts[0]))
     catch e
-      res.writeHead(500, 'Content-Type': 'application/json')
+      res.writeHead(500, 'Content-Type': 'application/json; charset=utf-8')
       res.end(JSON.stringify(message: "Unable to display requested data"))
       return
     res.writeHead(200, 'Content-Type': 'application/json')
