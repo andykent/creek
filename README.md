@@ -17,12 +17,8 @@ then create a file somewhere called `hello.creek` containing the following...
 
     parser 'words'
     interface 'rest'
-    
-    track 'unique-words'
-      aggregator: modes.distinct.alltime
-      
-    track 'count'
-      aggregator: modes.count.alltime
+    track 'unique-words', aggregator: distinct.alltime
+    track 'count', aggregator: count.alltime
 
 Then run `echo 'hello world from creek' | creek hello.creek` 
 
@@ -48,19 +44,20 @@ Aggregators
 -----------
 The currently available aggregators are...
 
-* modes.count.alltime
-* modes.count.timeboxed
-* modes.distinct.alltime
-* modes.distinct.timeboxed
-* modes.max.alltime
-* modes.max.timeboxed
-* modes.min.alltime
-* modes.min.timeboxed
-* modes.mean.alltime
-* modes.mean.timeboxed
-* modes.popular.timeboxed
-* modes.sum.alltime
-* modes.sum.timeboxed
+* count.alltime
+* count.timeboxed
+* distinct.alltime
+* distinct.timeboxed
+* max.alltime
+* max.timeboxed
+* min.alltime
+* min.timeboxed
+* mean.alltime
+* mean.timeboxed
+* popular.timeboxed
+* sum.alltime
+* sum.timeboxed
+* recent.limited
 
 All aggregators support `field` and `before` options and timeboxed ones also support `period` and `precision` settings. 
 
