@@ -50,14 +50,14 @@ The currently available aggregators are...
 * distinct.timeboxed
 * max.alltime
 * max.timeboxed
-* min.alltime
-* min.timeboxed
 * mean.alltime
 * mean.timeboxed
+* min.alltime
+* min.timeboxed
 * popular.timeboxed
+* recent.limited
 * sum.alltime
 * sum.timeboxed
-* recent.limited
 
 All aggregators support `field` and `before` options and timeboxed ones also support `period` and `precision` settings. 
 

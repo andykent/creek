@@ -6,7 +6,11 @@
     name: 'Andy Kent',
     email: 'andy@forward.co.uk',
   },
-  main: 'lib/creek',
+  directories: { 
+    lib : "./lib",
+    
+  },
+  main: 'lib/bootstrap',
   bin: 'bin/creek',
   dependencies: {
     'coffee-script': '0.9.4'
