@@ -8,15 +8,17 @@
   },
   directories: { 
     lib : "./lib",
-    
   },
   main: 'lib/bootstrap',
   bin: 'bin/creek',
   dependencies: {
-    'coffee-script': '0.9.4'
+    'coffee-script': '0.9.4',
   },
   engines: [ 
     "node"
-  ]
-  
+  ],
+  repository : {
+    type: "git",
+    url: "http://github.com/andykent/creek.git",
+  },
 }
