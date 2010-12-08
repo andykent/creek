@@ -4,7 +4,7 @@ Creek is a dead simple way to run performant summary analysis over time series d
 
 Current Status
 --------------
-It's early days for the project and there may be some warts however Creek is currently used production at Forward to analyse over 35 million messages per day.
+It's early days for the project and there may be some warts however Creek is currently used in production at Forward to analyse over 35 million messages per day.
 
 The command line tool and configuration interface is fairly stable however the code level interfaces not so much.
 
