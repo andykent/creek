@@ -65,3 +65,9 @@ All aggregators support `field` and `before` options and timeboxed ones also sup
 * before - a function that takes each chunks field right before it is about to be pushed to the aggregator, you should return the original value, a modified value or undefined if you would like this chunk to be skipped.
 * period - this is the period in seconds over which you would like the timeboxed aggregation to run. A value of 60 will keep track of the value over the last rolling 1 min window. The default value is 60 seconds.
 * precision - the accuracy of the rolling time window specified in seconds. I general lower the value used here the more memory will be required. The default value is 1 second. 
+
+Notes
+-----
+Please note that the current aggregator implementations are fairly immature and they may not be optimal in terms of RAM or CPU usage at this point. What I can say though is they are efficient enough for most use cases and can comfortably handle 100s of records per seconds.
+
+If anyone would like to contribute interfaces, parsers or aggregators they would be gladly received.
