@@ -4,7 +4,7 @@ require('coffee-script')
 process.title = 'creek'
 configFile = process.argv[2]
 if(configFile===undefined) {
-  console.log('I need a config file')
+  console.log('Usage: `creek myconf.creek`')
   process.exit(1)
 }
 require('./../lib/runner').boot(configFile)
