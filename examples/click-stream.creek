@@ -6,19 +6,19 @@ parser 'json'
 interface 'rest'
 
 track 'popular-keywords'
-  aggregator: modes.popular.timeboxed
+  aggregator: popular.timeboxed
   field: ((o) -> unescape(o['keyword']))
   period: 5*60
   precision: 1
   top: 5
 
 track 'redirects-per-min'
-  aggregator: modes.count.timeboxed
+  aggregator: count.timeboxed
   field: 1
   period: 60
   precision: 1
 
 track 'tags-sent-to'
-  aggregator: modes.distinct.alltime
+  aggregator: distinct.alltime
   field: 'destinationTag'
   before: (v) -> if v is '1' or v is '3' then undefined else v

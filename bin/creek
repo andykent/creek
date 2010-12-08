@@ -7,4 +7,4 @@ if(configFile===undefined) {
   console.log('I need a config file')
   process.exit(1)
 }
-require('./../lib/creek').boot(configFile)
+require('./../lib/runner').boot(configFile)
