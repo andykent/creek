@@ -10,3 +10,4 @@ exports.aggregators =
   sum: require('./aggregators/sum')
   popular: require('./aggregators/popular')
   distinct: require('./aggregators/distinct')
+  recent: require('./aggregators/recent')

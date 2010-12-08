@@ -10,7 +10,8 @@ The command line tool and configuration interface is fairly stable however the c
 
 Hello World Example
 -------------------
-`npm install creek`
+
+Get the code with either `npm install creek` or clone this repo and either add creek to your path or use ./bin/creek in place.
 
 then create a file somewhere called `hello.creek` containing the following...
 

@@ -22,3 +22,8 @@ track 'tags-sent-to'
   aggregator: distinct.alltime
   field: 'destinationTag'
   before: (v) -> if v is '1' or v is '3' then undefined else v
+
+track 'recent-keywords'
+  aggregator: recent.limited
+  field: ((o) -> unescape(o['keyword']))
+  count: 5
