@@ -18,7 +18,7 @@ class TimeboxedAggregator
     values = [values] unless Array.isArray(values)
     for value in values
       value = @opts.before.call(this, value) if @opts.before
-      currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time)
+      currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time) unless value is undefined
     oldValue = @cachedValue
     @compute()
     @events.emit('change', @cachedValue, oldValue) if @events.listeners('change').length == 0 and @cachedValue != oldValue

@@ -11,6 +11,7 @@ track 'popular-keywords'
   period: 5*60
   precision: 1
   top: 5
+  before: (v) -> if v is 'test' then undefined else v
 
 track 'redirects-per-min'
   aggregator: count.timeboxed
@@ -27,3 +28,4 @@ track 'recent-keywords'
   aggregator: recent.limited
   field: ((o) -> unescape(o['keyword']))
   count: 5
+  before: (v) -> if v is 'test' then undefined else v

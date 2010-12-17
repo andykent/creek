@@ -1,7 +1,7 @@
 http = require('http')
 url = require('url')
 
-exports.init = (agg, opts) -> 
+exports.init = (agg, opts) ->
   console.log("Rest Server Started")
   server = http.createServer (req, res) ->
     pathParts = url.parse(req.url).pathname.split('/')
