@@ -11,6 +11,7 @@ class TimeboxedAggregator
     @blocks = []
     @implementation.init.call(this, opts) if @implementation.init
     @events = new events.EventEmitter()
+    @staleCache =  false
   on: (event, callback) ->
     @events.on(event, callback)
   push: (time, values) ->
@@ -24,7 +25,10 @@ class TimeboxedAggregator
     @events.emit('change', @cachedValue, oldValue) if @events.listeners('change').length == 0 and @cachedValue != oldValue
   compute: ->
     @cleanup()
-    @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
+    if @staleCache
+      @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
+      @staleCache = false
+    @cachedValue
   value: ->
     @cachedValue
   maybeCreateNewBlock: (time) ->
@@ -36,6 +40,7 @@ class TimeboxedAggregator
     if diff > @precision
       @blocks.push( time:time, data:@defaultBlockValue() )
       @blocks[@blocks.length-2].data = @implementation.closeBlock(lastBlock) if @implementation.closeBlock
+      @staleCache = true
     @blocks[@blocks.length-1]
   cleanup: ->
     periodThreshold = new Date().getTime() - @period

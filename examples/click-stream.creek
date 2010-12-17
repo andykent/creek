@@ -7,7 +7,7 @@ interface 'rest'
 
 track 'popular-keywords'
   aggregator: popular.timeboxed
-  field: ((o) -> unescape(o['keyword']))
+  field: ((o) -> unescape(o.keyword))
   period: 5*60
   precision: 1
   top: 5
