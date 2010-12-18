@@ -8,10 +8,18 @@ interface 'rest'
 track 'popular-keywords'
   aggregator: popular.timeboxed
   field: ((o) -> unescape(o.keyword))
-  period: 5*60
-  precision: 1
+  period: 10*60
+  precision: 10
   top: 5
   before: (v) -> if v is 'test' then undefined else v
+
+track 'popular-words'
+  aggregator: popular.timeboxed
+  field: ((o) -> unescape(o.keyword).toLowerCase().split(' ') )
+  period: 30*60
+  precision: 30
+  top: 10
+  before: (v) -> if v is 'test' or v.length < 4 then undefined else v
 
 track 'redirects-per-min'
   aggregator: count.timeboxed
