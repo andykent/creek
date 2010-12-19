@@ -27,6 +27,7 @@ class TimeboxedAggregator
     @cleanup()
     if @staleCache
       @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
+      @cachedValue = @opts.after.call(this, @cachedValue) if @opts.after
       @staleCache = false
     @cachedValue
   value: ->
