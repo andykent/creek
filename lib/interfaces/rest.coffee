@@ -4,7 +4,9 @@ url = require('url')
 exports.init = (agg, opts) ->
   console.log("Rest Server Started")
   server = http.createServer (req, res) ->
-    pathParts = url.parse(req.url).pathname.split('/')
+    path = url.parse(req.url).pathname
+    path = path.replace(opts.path, '') if opts.path
+    pathParts = path.split('/')
     pathParts.shift()
     buildResponse = (obj) ->
       callback = url.parse(req.url, true).query?.callback
