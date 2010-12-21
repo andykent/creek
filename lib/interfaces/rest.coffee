@@ -6,16 +6,22 @@ exports.init = (agg, opts) ->
   server = http.createServer (req, res) ->
     pathParts = url.parse(req.url).pathname.split('/')
     pathParts.shift()
+    buildResponse = (obj) ->
+      callback = url.parse(req.url, true).query?.callback
+      if callback?
+        "#{callback}(#{JSON.stringify(obj)});"
+      else
+        JSON.stringify(obj)
     try
       result = if pathParts.length is 0
-        JSON.stringify(agg.value())
+        buildResponse(agg.value())
       else if pathParts.length is 1
-        JSON.stringify(agg.value(null, pathParts[0]))
+        buildResponse(agg.value(null, pathParts[0]))
       else
-        JSON.stringify(agg.value(pathParts[1], pathParts[0]))
+        buildResponse(agg.value(pathParts[1], pathParts[0]))
     catch e
       res.writeHead(500, 'Content-Type': 'application/json; charset=utf-8')
-      res.end(JSON.stringify(message: "Unable to display requested data"))
+      res.end(buildResponse(message: "Unable to display requested data"))
       return
     res.writeHead(200, 'Content-Type': 'application/json')
     res.end(result)
