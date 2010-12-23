@@ -24,6 +24,36 @@ Then run `echo 'hello world from creek' | creek hello.creek`
 
 To see Creek in action run `curl "http://localhost:8080/"` from another window.
 
+Twitter Example
+---------------
+
+As with the hello world example above but using this config instead...
+
+    parser 'json', seperatedBy: '\r'
+    interface 'rest'
+    
+    track 'languages-seen'
+     aggregator: distinct.alltime
+     field: (o) -> if o.user then o.user.lang else undefined
+     
+    track 'popular-words'
+      aggregator: popular.timeboxed
+      field: (o) -> if o.text then o.text.toLowerCase().split(' ') else undefined
+      period: 60
+      precision: 5
+      top: 10
+      before: (v) -> if v and v.length > 4 then v else undefined
+      
+    track 'popular-urls'
+      aggregator: popular.timeboxed
+      field: (o) -> if o.text then o.text.split(' ') else undefined
+      period: 60*30
+      precision: 60
+      top: 5
+      before: (v) -> if v and v.indexOf('http://') is 0 then v else undefined
+
+Then run `curl http://stream.twitter.com/1/statuses/sample.json -u USERNAME:PASSWORD | creek twitter.creek` and visit `http://localhost:8080/`
+
 Parsers
 -------
 You must choose a parser, the currently available options are...

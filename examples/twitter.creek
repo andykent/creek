@@ -1,0 +1,22 @@
+parser 'json', seperatedBy: '\r'
+interface 'rest'
+
+track 'languages-seen'
+ aggregator: distinct.alltime
+ field: (o) -> if o.user then o.user.lang else undefined
+
+track 'popular-words'
+  aggregator: popular.timeboxed
+  field: (o) -> if o.text then o.text.toLowerCase().split(' ') else undefined
+  period: 60
+  precision: 5
+  top: 10
+  before: (v) -> if v and v.length > 4 then v else undefined
+
+track 'popular-urls'
+  aggregator: popular.timeboxed
+  field: (o) -> if o.text then o.text.split(' ') else undefined
+  period: 60*30
+  precision: 60
+  top: 5
+  before: (v) -> if v and v.indexOf('http://') is 0 then v else undefined
