@@ -1,12 +1,12 @@
 aggregator = require('../aggregator')
 timeboxedAggregator = require('../timeboxed-aggregator')
 
-exports.alltime = aggregator.buildAggregator 'Alltime Minimum'
+exports.alltime = aggregator.buildAggregator 'Alltime Minimum',
   init: (opts) -> @max = null
   push: (time, value) -> @max = value if @max == null or @max > value
   compute: -> @max
 
-exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Minimum'
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Minimum',
   recalculateBlockData: (blockData, value) ->
     if blockData is null or blockData > value then value else blockData
   computeFromBlocks: (blocks) ->

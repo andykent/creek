@@ -1,6 +1,6 @@
 timeboxedAggregator = require('../timeboxed-aggregator')
 
-exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popular'
+exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popular',
   init: (opts) ->
     @numberOfResultsToKeep = opts.top
     @numberOfResultsToKeep = 10 if @numberOfResultsToKeep is null

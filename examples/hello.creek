@@ -1,8 +1,8 @@
 parser 'words'
 interface 'rest'
 
-track 'unique-words'
+track 'unique-words',
   aggregator: distinct.alltime
   
-track 'count'
+track 'count',
   aggregator: count.alltime

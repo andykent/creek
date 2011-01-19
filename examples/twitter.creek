@@ -1,11 +1,11 @@
 parser 'json', seperatedBy: '\r'
 interface 'rest'
 
-track 'languages-seen'
+track 'languages-seen',
  aggregator: distinct.alltime
  field: (o) -> if o.user then o.user.lang else undefined
 
-track 'popular-words'
+track 'popular-words',
   aggregator: popular.timeboxed
   field: (o) -> if o.text then o.text.toLowerCase().split(' ') else undefined
   period: 60
@@ -13,7 +13,7 @@ track 'popular-words'
   top: 10
   before: (v) -> if v and v.length > 4 then v else undefined
 
-track 'popular-urls'
+track 'popular-urls',
   aggregator: popular.timeboxed
   field: (o) -> if o.text then o.text.split(' ') else undefined
   period: 60*30
