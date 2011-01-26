@@ -12,7 +12,7 @@
   main: 'lib/bootstrap',
   bin: 'bin/creek',
   dependencies: {
-    'coffee-script': '0.9.4',
+    'coffee-script': '1.0.0',
   },
   engines: [ 
     "node"
