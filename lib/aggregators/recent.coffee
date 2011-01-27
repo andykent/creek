@@ -5,8 +5,6 @@ exports.limited = aggregator.buildAggregator 'Most Recent',
     @count = opts.count or 10
     @items = []
   push: (time, value) ->
-    @items.reverse()
-    @items.push(value)
-    @items.shift() if @items.length > @count
-    @items.reverse()
+    @items.unshift(value)
+    @items.pop() if @items.length > @count
   compute: -> @items

@@ -11,6 +11,7 @@ track 'popular-words',
   period: 60
   precision: 5
   top: 10
+  keep: 5
   before: (v) -> if v and v.length > 4 then v else undefined
 
 track 'popular-urls',

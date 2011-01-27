@@ -7,6 +7,8 @@ class TimeboxedAggregator
     @implementation = implementation
     @period = (opts.period or 60) * 1000
     @precision = (opts.precision or 1) * 1000
+    @historySize = opts.keep or 1
+    @history = []
     @cachedValue = null
     @blocks = []
     @implementation.init.call(this, opts) if @implementation.init
@@ -22,12 +24,13 @@ class TimeboxedAggregator
       currentBlock.data = @implementation.recalculateBlockData.call(this, currentBlock.data, value, currentBlock.time, time) unless value is undefined
     oldValue = @cachedValue
     @compute()
-    @events.emit('change', @cachedValue, oldValue) if @events.listeners('change').length == 0 and @cachedValue != oldValue
+    @events.emit('change', @cachedValue, oldValue) if @cachedValue != oldValue
   compute: ->
     @cleanup()
     if @staleCache
       @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
       @cachedValue = @opts.after.call(this, @cachedValue) if @opts.after
+      @updateHistory()
       @staleCache = false
     @cachedValue
   value: ->
@@ -50,6 +53,10 @@ class TimeboxedAggregator
       @blocks.shift()
   defaultBlockValue: -> 
     if @implementation.defaultBlockValue then @implementation.defaultBlockValue.call(this) else null
+  updateHistory: ->
+    @history.unshift(@cachedValue)
+    @history.pop() if @history.length > @historySize
+    @history
 
 exports.TimeboxedAggregator = TimeboxedAggregator
 
