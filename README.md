@@ -98,6 +98,7 @@ All aggregators support `field` and `before` options and timeboxed ones also sup
 
 Notes
 -----
-Please note that the current aggregator implementations are fairly immature and they may not be optimal in terms of RAM or CPU usage at this point. What I can say though is they are efficient enough for most use cases and can comfortably handle 100s of records per seconds.
+Please note that the current aggregator implementations are fairly immature and they may not be optimal in terms of RAM or CPU usage at this point. 
+What I can say though is they are efficient enough for most use cases and Creek can comfortably handle dozens of aggregators running accross 1,000s of records per second.
 
 If anyone would like to contribute interfaces, parsers or aggregators they would be gladly received.
