@@ -12,7 +12,7 @@ exports.alltime = aggregator.buildAggregator 'Alltime Mean',
 
 exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Mean',
   recalculateBlockData: (blockData, value) ->
-    blockData.count ++
+    blockData.count++
     blockData.total += value
     blockData
   defaultBlockValue: ->

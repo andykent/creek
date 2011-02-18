@@ -3,7 +3,7 @@ timeboxedAggregator = require('../timeboxed-aggregator')
 
 exports.alltime = aggregator.buildAggregator 'Alltime Count',
   init: (opts) -> @count = 0
-  push: (time, value) -> @count ++
+  push: (time, value) -> @count++
   compute: -> @count
 
 exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Count',

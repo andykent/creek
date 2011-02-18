@@ -12,7 +12,7 @@ exports.timeboxed = timeboxedAggregator.buildTimeboxedAggregator 'Timeboxed Popu
     topValues.reduce ((m,v) -> m[v] = block.data[v]; m), {}
   recalculateBlockData: (blockData, value) ->
     blockData[value] ?= 0
-    blockData[value] ++
+    blockData[value]++
     blockData
   computeFromBlocks: (blocks) ->
     completeBlocks = blocks.slice(0,blocks.length-1)
