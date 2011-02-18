@@ -1,24 +1,24 @@
 {
-  name: 'creek',
-  description: 'Configurable stream aggregator',
-  version: '0.1.8',
-  author: {
-    name: 'Andy Kent',
-    email: 'andy@forward.co.uk',
+  "name": "creek",
+  "description": "Configurable stream aggregator",
+  "version": "0.1.8",
+  "author": {
+    "name": "Andy Kent",
+    "email": "andy@forward.co.uk"
   },
-  directories: { 
-    lib : "./lib",
+  "directories": { 
+    "lib" : "./lib"
   },
-  main: 'lib/bootstrap',
-  bin: 'bin/creek',
-  dependencies: {
-    'coffee-script': '1.0.1',
+  "main": "lib/bootstrap",
+  "bin": "bin/creek",
+  "dependencies": {
+    "coffee-script": "1.0.1"
   },
-  engines: [ 
+  "engines": [ 
     "node"
   ],
-  repository : {
-    type: "git",
-    url: "http://github.com/andykent/creek.git",
-  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/andykent/creek.git"
+  }
 }
