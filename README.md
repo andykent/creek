@@ -61,6 +61,7 @@ You must choose a parser, the currently available options are...
 * words - this pushes each word to the aggregator using the current timestamp
 * json - expects line separated JSON objects
 * chunked - this is a generic parser which can chunk a stream based on any string or regex
+* zeromq - allows subscription to a zeromq channel rather than input on stdin.
 
 Currently all the parsers expect utf8 or a subset thereof.
 
@@ -99,6 +100,6 @@ All aggregators support `field` and `before` options and timeboxed ones also sup
 Notes
 -----
 Please note that the current aggregator implementations are fairly immature and they may not be optimal in terms of RAM or CPU usage at this point. 
-What I can say though is they are efficient enough for most use cases and Creek can comfortably handle dozens of aggregators running accross 1,000s of records per second.
+What I can say though is they are efficient enough for most use cases and Creek can comfortably handle dozens of aggregators running across 1,000s of records per second.
 
 If anyone would like to contribute interfaces, parsers or aggregators they would be gladly received.
