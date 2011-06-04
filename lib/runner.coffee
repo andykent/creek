@@ -17,7 +17,7 @@ publicInterface.parser = (parserName, opts) ->
   opts ?= {}
   require("./parsers/#{parserName}").init agg, opts, (record) -> 
     bucket = if opts.bucketedBy? then record[opts.bucketedBy] else null
-    timestamp = if opts.timestampedBy? then this record[opts.timestampedBy] else new Date()
+    timestamp = if opts.timestampedBy? then new Date(record[opts.timestampedBy]) else new Date()
     agg.push((bucket or 'default'), timestamp, record)
 
 exports.boot = (configFile) ->

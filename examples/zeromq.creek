@@ -1,0 +1,16 @@
+parser 'zeromq', 
+  url:          'tcp://example:5555', 
+  channel:      'redirect',
+  as:           'json',
+  bucketedBy:   'site',
+  timestampedBy:'timestamp'
+
+interface 'rest'
+
+track 'count', aggregator: count.alltime
+track 'popular-keywords',
+  aggregator: popular.timeboxed
+  field: (o) -> unescape(o.keyword)
+  period: 60
+  precision: 5
+  top: 10
