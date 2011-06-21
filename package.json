@@ -1,7 +1,7 @@
 {
   "name": "creek",
   "description": "Configurable stream aggregator",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "Andy Kent",
     "email": "andy@forward.co.uk"
