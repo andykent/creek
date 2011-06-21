@@ -9,11 +9,7 @@ class ChunkedStream
   dataHandler: (data) =>
     @patialData += data
     parts = @patialData.split(@seperator)
-    if parts[parts.length-1] == '' # this was a clean chunk break
-      parts.pop()
-      @patialData = ''
-    else # this was a incomplete chunk, stash it
-      @patialData = parts.pop()
+    @patialData = parts.pop() # last part will be an incomplete chunk or an empty string if we are lucky
     for chunk in parts
       @recordHandler(chunk) if chunk
 
