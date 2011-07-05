@@ -14,6 +14,7 @@ class TimeboxedAggregator
     @implementation.init.call(this, opts) if @implementation.init
     @events = new events.EventEmitter()
     @staleCache =  false
+    setInterval(@compute, @precision)
   on: (event, callback) ->
     @events.on(event, callback)
   push: (time, values) ->
@@ -25,7 +26,7 @@ class TimeboxedAggregator
     oldValue = @cachedValue
     @compute()
     @events.emit('change', @cachedValue, oldValue) if @cachedValue != oldValue
-  compute: ->
+  compute: =>
     @cleanup()
     if @staleCache
       @cachedValue = @implementation.computeFromBlocks.call(this, @blocks)
