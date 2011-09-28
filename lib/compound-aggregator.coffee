@@ -13,9 +13,10 @@ class CompoundAggregator
     if arguments.length == 3
       @aggregators[name].aggregator.on(event, callback)
     else
-      event = name
       callback = event
-      agg.aggregator.on(event, callback) for name, agg of @aggregators
+      event = name
+      for name, agg of @aggregators
+        ((name) -> agg.aggregator.on(event, (newValue, oldValue) -> callback(newValue, oldValue, name)))(name)
   push: (time, obj) ->
     for name, agg of @aggregators
       val = agg.getValue(obj)

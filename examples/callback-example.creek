@@ -1,0 +1,12 @@
+creek = require('../lib/creek')
+
+agg = creek.compoundAggregator.create()
+
+agg.track('sum', aggregator: creek.aggregators.sum.alltime, field: 'i')
+agg.track('count', aggregator: creek.aggregators.count.alltime, field: 'i')
+
+agg.on 'change', (newValue, oldValue, name) -> console.log(name, newValue, oldValue)
+
+agg.push(new Date(), i:1)
+agg.push(new Date(), i:3)
+
