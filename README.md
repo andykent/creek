@@ -1,3 +1,6 @@
+**THIS PROJECT ISN'T ACTIVELY MAINTAINED**
+**https://github.com/andykent/river is where all the action is at**
+
 When you've got a hosepipe, what you need is a Creek!
 =====================================================
 Creek is a dead simple way to run performant summary analysis over time series data. Creek is written in coffee-script and has only been tested with node 0.2.5.
