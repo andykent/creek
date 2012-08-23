@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/andykent/creek.png)](http://travis-ci.org/andykent/creek)
 **THIS PROJECT ISN'T ACTIVELY MAINTAINED**
 **https://github.com/andykent/river is where all the action is at**
 
