@@ -55,7 +55,7 @@ As with the hello world example above but using this config instead...
       top: 5
       before: (v) -> if v and v.indexOf('http://') is 0 then v else undefined
 
-Then run `curl http://stream.twitter.com/1/statuses/sample.json -u USERNAME:PASSWORD | creek twitter.creek` and visit `http://localhost:8080/`
+Then run `curl https://stream.twitter.com/1/statuses/sample.json -u USERNAME:PASSWORD | creek twitter.creek` and visit `http://localhost:8080/`
 
 Parsers
 -------
