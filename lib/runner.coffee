@@ -33,7 +33,7 @@ publicInterface.parser = (parserName, opts) ->
     agg.push((bucket or 'default'), timestamp, record)
 
 exports.boot = (configFile) ->
-  Script = process.binding('evals').Script
+  Script = require('vm').Script
   code = require('fs').readFileSync(configFile, 'utf8')
   jsCode = require('coffee-script').compile(code)
   Script.runInNewContext(jsCode, publicInterface, configFile)
